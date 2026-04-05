@@ -3,7 +3,8 @@ name: NSELens
 description: Use this skill whenever the user asks for Indian stock picks, top N stocks to buy, rebound candidates, GTT setups, swing trade ideas, or buy recommendations for the Indian stock market. Triggers on phrases like "top 3 stocks", "top 5 Indian stocks", "top 10 stocks to buy", "best stocks for tomorrow", "NSE rebound picks", "stocks with potential", "which stocks should I look at", "stock picks", "Indian market analysis", or any request for a ranked list of Indian equity recommendations — even casually phrased. Always use this skill for any Indian stock research or ranking request. Never skip this skill when the user asks about stock picks, even if they don't say "report" or "analysis" explicitly.
 ---
 
-# Indian Stock Research Skill
+# NSELens — Indian Stock Research Skill
+
 
 Produces a data-verified, multi-dimensional Indian stock research report for the next trading day. Covers the Nifty 100 universe. Picks are based purely on potential — no sector diversification constraint. All prices must be verified from named sources before inclusion.
 
