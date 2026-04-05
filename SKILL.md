@@ -3,7 +3,7 @@ name: NSELens
 description: Use this skill whenever the user asks for Indian stock picks, top N stocks to buy, rebound candidates, GTT setups, swing trade ideas, or buy recommendations for the Indian stock market. Triggers on phrases like "top 3 stocks", "top 5 Indian stocks", "top 10 stocks to buy", "best stocks for tomorrow", "NSE rebound picks", "stocks with potential", "which stocks should I look at", "stock picks", "Indian market analysis", or any request for a ranked list of Indian equity recommendations — even casually phrased. Always use this skill for any Indian stock research or ranking request. Never skip this skill when the user asks about stock picks, even if they don't say "report" or "analysis" explicitly.
 ---
 
-# NSELens — Indian Stock Research Skill
+# Indian Stock Research Skill
 
 Produces a data-verified, multi-dimensional Indian stock research report for the next trading day. Covers the Nifty 100 universe. Picks are based purely on potential — no sector diversification constraint. All prices must be verified from named sources before inclusion.
 
@@ -312,6 +312,77 @@ Technical: Support ₹XXX | RSI ~XX | [above/below] 200 DMA
 GTT: Trigger ₹XXX → Target ₹XXX (+X%) → SL ₹XXX | R:R X.Xx
 Risks: [Risk 1] · [Risk 2]
 ```
+
+---
+
+## Step 9 — Dark mode rendering rules (HTML widget output)
+
+When rendering the report as an HTML widget (via the visualize tool), **never hardcode hex colors for any text, background, or border inside the GTT box or any card section**. Hardcoded colors break in dark mode — text becomes invisible because it matches the dark background.
+
+### Mandatory CSS variable rules
+
+**Always use these CSS variables — never hardcode hex values like `#185FA5`, `#FAEEDA`, `#1D9E75`, etc.:**
+
+| Element | Correct CSS variable |
+|---|---|
+| Text (primary) | `var(--color-text-primary)` |
+| Text (muted/labels) | `var(--color-text-secondary)` |
+| Text (info/blue) | `var(--color-text-info)` |
+| Text (success/green) | `var(--color-text-success)` |
+| Text (warning/amber) | `var(--color-text-warning)` |
+| Text (danger/red) | `var(--color-text-danger)` |
+| Background (info) | `var(--color-background-info)` |
+| Background (success) | `var(--color-background-success)` |
+| Background (warning) | `var(--color-background-warning)` |
+| Background (danger) | `var(--color-background-danger)` |
+| Background (card) | `var(--color-background-primary)` |
+| Background (row/pill) | `var(--color-background-secondary)` |
+| Border (default) | `var(--color-border-tertiary)` |
+| Border (info) | `var(--color-border-info)` |
+| Border (warning) | `var(--color-border-warning)` |
+
+### GTT box pattern (copy this exactly)
+
+```html
+<!-- Blue GTT box (standard) -->
+<div style="border-radius: var(--border-radius-md); padding: 10px 14px; margin-top: 10px; border: 0.5px solid var(--color-border-info); background: var(--color-background-info);">
+  <div style="font-size: 11px; font-weight: 500; text-transform: uppercase; color: var(--color-text-info); margin: 0 0 8px;">GTT Setup — 6-month horizon</div>
+  <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px;">
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <span style="font-size: 11px; color: var(--color-text-secondary);">Trigger</span>
+      <span style="font-weight: 500; color: var(--color-text-primary); font-size: 14px;">₹X,XXX</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <span style="font-size: 11px; color: var(--color-text-secondary);">Target</span>
+      <span style="font-weight: 500; color: var(--color-text-primary); font-size: 14px;">₹X,XXX (+X%)</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <span style="font-size: 11px; color: var(--color-text-secondary);">Stop Loss</span>
+      <span style="font-weight: 500; color: var(--color-text-primary); font-size: 14px;">₹X,XXX (-X%)</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <span style="font-size: 11px; color: var(--color-text-secondary);">R:R</span>
+      <span style="font-weight: 500; background: var(--color-background-success); color: var(--color-text-success); padding: 2px 8px; border-radius: var(--border-radius-md); font-size: 12px;">X.Xx ✓</span>
+    </div>
+  </div>
+  <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 8px;">GTT orders on Zerodha Kite / Upstox / Angel One have 1-year validity — no need to reset daily.</div>
+</div>
+
+<!-- Warning GTT box (governance/risk overhang) — swap info → warning -->
+<div style="border: 0.5px solid var(--color-border-warning); background: var(--color-background-warning);">
+  <div style="color: var(--color-text-warning);">GTT Setup — ⚠️ Risk overhang</div>
+  <!-- Same inner structure, R:R badge uses rr-ok class -->
+</div>
+```
+
+### Key rule summary
+- GTT trigger, target, stop loss values → always `color: var(--color-text-primary)` — **never a hardcoded color**
+- GTT box section title → `color: var(--color-text-info)` (blue box) or `color: var(--color-text-warning)` (warning box)
+- Labels above values (Trigger, Target, Stop Loss) → `color: var(--color-text-secondary)`
+- R:R badge (good) → `background: var(--color-background-success); color: var(--color-text-success)`
+- R:R badge (weak) → `background: var(--color-background-warning); color: var(--color-text-warning)`
+- Catalyst tags → `background: var(--color-background-success); color: var(--color-text-success)`
+- Risk text → `color: var(--color-text-danger)`
 
 ---
 
